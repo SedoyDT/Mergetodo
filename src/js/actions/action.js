@@ -18,7 +18,12 @@ export const initialItems = (res) => ({
 	type: "INITIAL_ITEMS",
 	items: res
 })
-
+export const DeleteItem = (data) => ({
+    type: "DELETE_ITEM",
+    item: data.item,
+    itemId:data.id,
+    completed:data.completed
+})
 /***************************************************************************************** */
 /* Async Action items using - Sockets													   */
 /***************************************************************************************** */
@@ -29,7 +34,7 @@ export const loadInitialDataSocket = (socket) => {
 		   console.dir(res)
 		   dispatch(initialItems(res))
 	   })
-	}	
+	}
 }
 
 export const addNewItemSocket = (socket,id,item) => {
@@ -39,8 +44,8 @@ export const addNewItemSocket = (socket,id,item) => {
 				item:item,
 				completed:false
 		     }
-	    socket.emit('addItem',postData)		
-	}	
+	    socket.emit('addItem',postData)
+	}
 }
 
 export const markItemCompleteSocket = (socket,id,completedFlag) => {
@@ -50,5 +55,15 @@ export const markItemCompleteSocket = (socket,id,completedFlag) => {
 				completed:completedFlag
 		     }
 		socket.emit('markItem',postData)
-	}	
+	}
+}
+export const deleteItemSocket = (socket,id,item) => {
+    return (dispatch) => {
+        let postData = {
+            id:id+1,
+            item:item,
+            completed:false
+        }
+        socket.emit('addItem',postData)
+    }
 }

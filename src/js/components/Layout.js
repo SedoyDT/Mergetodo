@@ -1,8 +1,8 @@
 import React from "react";
 import ReactDOM from "react-dom"
 import {connect} from 'react-redux'
-import {addNewItem,loadInitialData,markItemComplete
-	   ,loadInitialDataSocket,addNewItemSocket,markItemCompleteSocket
+import {addNewItem,loadInitialData,markItemComplete, DeleteItem
+	   ,loadInitialDataSocket,addNewItemSocket,markItemCompleteSocket,deleteItemSocket
 	   ,AddItem,completeItem} from '../actions/action'
 import io from "socket.io-client"
 
@@ -21,7 +21,7 @@ let robotFontStyle = {
 	fontFamily: "Roboto, sans-serif",
 	color: "rgba(0, 0, 0, 0.870588)"
 }
-let markCompleteStyle = {   
+let markCompleteStyle = {
   textDecoration: "line-through"
 }
 let socket
@@ -39,7 +39,7 @@ export  class Layout extends React.Component{
 	   socket = io.connect("http://localhost:3000")
 	   console.dir(socket)
 	   dispatch(loadInitialDataSocket(socket))
-	   
+
 	   socket.on('itemAdded',(res)=>{
 		   console.dir(res)
 		   dispatch(AddItem(res))
@@ -56,15 +56,15 @@ export  class Layout extends React.Component{
 	   alert("Disconnecting Socket as component will unmount")
    }
 
-   render(){	
+   render(){
        const {dispatch,items} = this.props
-		
+
 		return (
 			<div>
 				<h1 style={robotFontStyle}>React TO-DO (Real-Time)</h1>
-				
+
                 <Divider/>
-				<TextField 
+				<TextField
 					hintText="Add New Item"
       				floatingLabelText="Enter the new item"
 					ref="newTodo"
@@ -75,7 +75,7 @@ export  class Layout extends React.Component{
 					onTouchTap={ () => {
                         const newItem = ReactDOM.findDOMNode(this.refs.newTodo.input).value
                         newItem === "" ?  alert("Item shouldn't be blank")
-						               :  dispatch(addNewItemSocket(socket,items.size,newItem)) 
+						               :  dispatch(addNewItemSocket(socket,items.size,newItem))
 									    {/*: dispatch(addNewItem(items.size,newItem))*/}
                         ReactDOM.findDOMNode(this.refs.newTodo.input).value = ""
 					  }
@@ -89,7 +89,7 @@ export  class Layout extends React.Component{
 								} primaryText={todo.item}>
 						   </ListItem>})
 				}</List>
-				
+
 			</div>
 		);
 	}

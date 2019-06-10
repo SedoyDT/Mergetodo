@@ -10,7 +10,7 @@ const reducer = (state=initialState, action) => {
         return {
             ...state,
             items:state.items.push({id:action.itemId,item:action.item,completed:action.completed})
-        } 	
+        }
 
     case 'COMPLETED_ITEM':
 	  return {
@@ -28,7 +28,13 @@ const reducer = (state=initialState, action) => {
     //     ...state,
     //     items:state.items.push({id:action.items.itemId,item:action.items.item,completed:action.items.completed})
     //   }
-    default:
+      case 'DELETE_ITEM':
+          return {
+              ...state,
+              items:state.items.delete({id:action.itemId,item:action.item,completed:action.completed})
+          }
+
+      default:
       return state
   }
 }
